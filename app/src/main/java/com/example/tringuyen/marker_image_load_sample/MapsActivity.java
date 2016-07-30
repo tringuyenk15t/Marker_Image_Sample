@@ -23,6 +23,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Source: https://github.com/bumptech/glide/issues/290
+ * Create by Tri Nguyen
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
 
     private GoogleMap mMap;
@@ -102,6 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 name = "Sushi 2";
                 url  = "https://lh4.googleusercontent.com/-mAK_87HKD4k/VyMyJMw825I/AAAAAAABfNU/WtJ5sGGnHagyRto3t69R2BvXs1CdTOvVgCLIB/s1600-w300-h300/";
                 break;
+
             default:
                 name = "";
                 url = "";
@@ -113,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             Glide.with(this).load(url).asBitmap().dontAnimate().into(new MarkerImageTarget(marker));
             iv.setImageResource(R.drawable.image);
-            return null;
+            return v;
         }
         else
         {
