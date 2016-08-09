@@ -2,7 +2,6 @@ package com.example.tringuyen.marker_image_load_sample;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -80,8 +80,16 @@ public class MapsActivity extends FragmentActivity implements
         // Add a marker in Sydney and move the camera
         sushi1 = new LatLng(10.7718488,106.6576495);
         sushi2 = new LatLng(10.775727,106.704895);
-        mMap.addMarker(new MarkerOptions().position(sushi1).title("1"));
-        mMap.addMarker(new MarkerOptions().position(sushi2).title("2"));
+        //TODO customize marker icon here
+
+//        BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.marker_light_green3);
+
+        mMap.addMarker(new MarkerOptions()
+                .position(sushi1).title("1")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker)));
+        mMap.addMarker(new MarkerOptions()
+                .position(sushi2).title("2")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker)));
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
@@ -99,7 +107,7 @@ public class MapsActivity extends FragmentActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            setPolyline();
+                setPolyline();
             }
         });
     }
@@ -125,7 +133,20 @@ public class MapsActivity extends FragmentActivity implements
                 }
 
                 polylineOptions.add(sushi2);
-                mMap.addPolyline(polylineOptions.width(10).color(Color.BLUE).geodesic(true));
+                mMap.addPolyline(polylineOptions.width(15).color(getApplicationContext().getResources().getColor(R.color.colorPolyline)));
+
+                //set camera zoom fit with start and end location
+                LatLngBounds.Builder latLngBounds = new LatLngBounds.Builder();
+                latLngBounds.include(sushi1);
+                latLngBounds.include(sushi2);
+
+                LatLngBounds bounds = latLngBounds.build();
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,50)); // the second param is the offset from edges of the map in pixels
+
+                //Disable Map Toolbar
+                mMap.getUiSettings().setMapToolbarEnabled(false);
+    //          //dissable zoom control
+    //          mMap.getUiSettings().setZoomControlsEnabled(false);
             }
 
             @Override
@@ -266,4 +287,5 @@ public class MapsActivity extends FragmentActivity implements
 
         return decoded;
     }
+
 }
